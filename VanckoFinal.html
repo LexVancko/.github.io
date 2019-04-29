@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Visualizing Sexual Violence in Philadelphia</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: grey;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+            align-content: center;
+            text-align: center;
+            border-color: black;
+            border-style: solid;
+            border-width: thick;
+        }
+        text  {
+          align-content: center;
+          color: black;
+          font: Times;
+          text-align: center;
+        }
+          
+        h1 {
+            margin-right: 20px;
+            margin-left: 20px;
+            color: black;
+            align-content: center;
+            align-self: center;
+            font: Times;
+            font-family: serif;
+            text-align: center;
+            font-size: 3em;
+            background-color: darkgrey;
+            border-color: blueviolet;
+            border-style: groove;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-position: center;
+        }
+        h2 {
+            color: black;
+            background-color: darkgray;
+            border-color: blueviolet;
+            border-style: groove;
+            margin-top: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
+            font-size: 2em;
+            margin-bottom: 20px;
+            align-content: center;
+            text-align: center;
+            font: Times;
+        }
+        #map {
+            align-self: center;
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+            border: 10px;
+            border-color: blueviolet;
+            border-style: groove;
+        }
+        footer {
+            text-align: center;
+            height: 100%;
+            background-color: lightgray;
+            border-style: groove;
+            border-color: blueviolet;
+            font: Times, serif;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+      
+        .myButton {
+    	-moz-box-shadow:inset 0px 1px 3px 3px #91b8b3;
+	   -webkit-box-shadow:inset 0px 1px 3px 3px #91b8b3;
+	   box-shadow:inset 0px 1px 3px 3px #91b8b3;
+	   background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05,    #768d87), color-stop(1, #6c7c7c));
+	   background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	   background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	   background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	   background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	   background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
+	   background-color:#768d87;
+	   -moz-border-radius:8px;
+	   -webkit-border-radius:8px;
+	   border-radius:8px;
+	   border:2px solid #566963;
+	   display:inline-block;
+	   cursor:pointer;
+	   color:#ffffff;
+	   font-family:Trebuchet MS;
+	   font-size:14px;
+	   font-weight:bold;
+	   padding:4px 24px;
+	   text-decoration:none;
+	   text-shadow:1px 3px 1px #2b665e;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Visualizaing Sexual Violence in Philadelphia</h1>
+        <h2>Discussing Nuance in Data Science</h2>
+    </header>
+    <br>
+    <img src="phskyline2.jpg">
+    <br>
+    <br>
+    <center><a href="#" class="myButton" onclick="window.open('http://www.woar.org','_blank')">#metoo</a></center>
+    <br>
+    <div id='map'></div>
+    <br> 
+    
+<!--
+    <form>
+        <b><ul>Anonomous Survey of sexual assault survivors in Philadelphia</ul></b>
+        <br><br>
+  <input type="radio" name="gender" value="male" checked> Male<br>
+  <input type="radio" name="gender" value="female"> Female<br>
+  <input type="radio" name="gender" value="non-bianary"> Non-Bianary<br>
+  <input type="radio" name="gender" value="female"> Trans-Male<br>
+  <input type="radio" name="gender" value="non-bianary">Trans-Female<br>
+  <br>
+  <br>        
+  <input type="number" name="year of assault" min="4" maxlength="4">    
+  <br>
+  <br>        
+  <input type="submit" value="Raise your Voice">
+    </form>
+-->
+    <div>
+    <p>
+        
+    Sexual violence happens in every community and affects people of all genders and ages. Sexual violence is any type of unwanted sexual contact. This includes words and actions of a sexual nature against a person’s will and without their consent. A person may use force, threats, manipulation, or coercion to commit sexual violence.
+<br>
+<br>
+Forms of sexual violence include:
+<br>
+Rape or sexual assault
+Child sexual assault and incest
+Sexual assault by a person’s spouse or partner
+Unwanted sexual contact/touching
+Sexual harassment
+Sexual exploitation and trafficking
+Exposing one’s genitals or naked body to other(s) without consent
+Masturbating in public
+Watching someone engage in private acts without their knowledge or permission
+Nonconsensual image sharing
+<br>
+<br>
+There is a social context that surrounds sexual violence. Social norms that condone violence, use power over others, traditional constructs of masculinity, the subjugation of women, and silence about violence and abuse contribute to the occurrence of sexual violence. Oppression in all of its forms is among the root causes of sexual violence. Sexual violence is preventable through collaborations of community members at multiple levels of society—in our homes, neighborhoods, schools, faith settings, workplaces, and other settings. We all play a role in preventing sexual violence and establishing norms of respect, safety, equality, and helping others.
+        
+</p>
+    <br>
+    <br>
+    <br>    
+    </div>
+    <center><a href="#" class="myButton" onclick="window.open('https://www.nsvrc.org/','_blank')">National Resources</a></center>
+    <br>
+    <br>
+    <center> <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeiEwCzRRqh3kF9-kuoaPwELaHlM71QUWl7WsIz-8QlFuhKNg/viewform?embedded=true" width="640" height="1634" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe></center>
+    
+    
+    <footer>
+        <p>This initative brought to you by Lex Vancko through the Professional Science Masters Program of<a href="www.temple.edu"></a> Temple University</p>
+        <p><b>Sources</b>
+        <br>
+        <br>Open Data Philly <a href="https://www.opendataphilly.org/"></a> 
+        <br>
+        <br>Philadelphia Center Against Sexual Violence <a href="https://www.woar.org/"></a>    
+        <br>
+        <br>National Sexual Violence Resource Center <a href="https://www.nsvrc.org/"> </a>  
+        
+        </p>
+    </footer>
+
+    <script src="rape2015sec.geojson"></script>
+    <script src="rape2016sec.geojson"></script>
+    <script src="rape2017sec.geojson"></script>
+    <script scr="zipcode.geojson"></script>
+    <script src="rincident.geojson"></script>
+    <script>
+// The script above gives you access to the geoJson data, from Open Data Philly. 
+      var map = L.map('map', {
+        center: [39.983579, -75.156796],
+        zoom: 12
+    });
+        
+    var temple = L.latLng(39.981441, -75.155067); 
+       L.marker(temple, {
+       icon : L.icon({
+       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLLo5jWzPwekMfJEpxraV38LT5m75ois7eredDj91ijOvMRbnF',
+       iconSize: [20, 20]
+                    })
+       }).addTo(map);
+        
+       var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+          subdomains: 'abcd',
+          maxZoom: 19
+      });  
+      
+      tiles.addTo(map);
+    
+        
+  
+// Adding the geoJson data to our mappy!  
+  
+    var zipcodes = L.geoJson(zipcodes).addTo(map);    
+    var pointLayer = L.layerGroup();  
+    var popup = "I am a reported incident of Assault";
+    var rape2015 = L.geoJson(rape2015, {
+          pointToLayer: function(feature,latlng) {
+              return L.circleMarker(latlng, {
+                 color: "#ffff00",
+                 weight: 1,
+                 radius: .2,
+                 opacity: .5,
+              })}
+              }).addTo(pointLayer).bindPopup(popup);   
+        
+             
+     var rape2016 = L.geoJson(rape2016, {
+          pointToLayer: function(feature,latlng) {
+              return L.circleMarker(latlng, {
+                 color: "#468A0F",
+                 weight: 1,
+                 radius: .2,
+                 opacity: .5,
+              })}
+              }).addTo(pointLayer).bindPopup(popup);   
+         
+     var rape2017 = L.geoJson(rape2017, {
+          pointToLayer: function(feature,latlng) {
+              return L.circleMarker(latlng, {
+                 color: "#00ffff",
+                 weight: 1,
+                 radius: .2,
+                 opacity: .5                 
+              })
+          }}).addTo(pointLayer).bindPopup(popup);
+        
+      var rincident = L.geoJson(rincident, {
+          pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, {
+             color: "#ff0000",
+                 weight: 1,
+                 radius: 2,
+                 fillColor: "#ff0000",
+                 fillOpacity: 1
+              })
+        }}).addTo(pointLayer).bindPopup(popup); 
+      
+   
+      map.addLayer(pointLayer);
+      
+
+    //This is where mouseover conditions are created.
+//        onEachFeature: function(feature,layer) {
+//        layer.on('mouseover', function() {
+//        layer.setStyle({
+//        fillColor: 'red'
+//    });      
+//});
+//            //Mouseout conditions
+//layer.on('mouseout', function() {
+//    layer.setStyle({
+//        fillColor: 'aqua',
+//        fillOpacity: .5
+//    })
+//})
+//            
+//}.addTo(map);
+//
+
+
+        
+        //code below creates the layers, their titles and represents the variables. 
+        //For Future Iterations of this project, i'd like to add data from 2018 and 2019. However, the free KMZ to Geojson converter had a file limit. 
+       
+var sourcesLayers = {
+"<b style='color:#ff0000'>Locations with Multiple Occurances</b>": rincident,    
+"<b style='color:#000000'>Reported Rape 2015</b>": rape2015,
+"<b style='color:#468A0F'>Reported Rape 2016</b>": rape2016,
+"<b style='color:#00ffff'>Reported Rape 2017</b>": rape2017
+};
+
+        
+L.control.layers(null, sourcesLayers, { color:'#000000', collapsed:true }).addTo(map); 
+                  
+    </script>
+    
+</body>
+
+</html>
